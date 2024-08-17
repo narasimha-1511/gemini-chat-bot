@@ -4,7 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GEMIINII</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+        }
+
+        #chat {
+            width: 90%;
+            height: 80vh;
+            background-color: #ffffff;
+            margin: 20px auto;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+        }
+
+        #user-input {
+            border-top: 1px solid #e0e0e0;
+            padding: 20px;
+            display: flex;
+            background-color: #f9f9f9;
+        }
+
+        #message-input {
+            flex-grow: 1;
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+
+        #send {
+            margin-left: 15px;
+            padding: 15px 30px;
+            border: none;
+            background-color: #4a90e2;
+            color: #ffffff;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        #send:hover {
+            background-color: #3a7bd5;
+            transform: scale(1.05);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 18px;
+            border-radius: 18px;
+            max-width: 75%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            background-color: #4a90e2;
+            color: #ffffff;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message {
+            background-color: #f0f0f0;
+            color: #333333;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .bot-message pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            color: #333;
+        }
+
+    </style>
 </head>
 <body>
     <div id="chat">
@@ -14,6 +109,41 @@
         <input type="text" id="message-input" placeholder="your message...">
         <button id="send">Send</button>
     </form>
-    <script src="script.js"></script>
+    <script>
+        const m = document.getElementById('chat');
+        const i = document.getElementById('message-input');
+        const b = document.getElementById('send');
+
+        function a(t, u = false) {
+            let e = document.createElement('div');
+            e.className = 'message ' + (u ? 'user-message' : 'bot-message');
+            e.textContent = t;
+            m.appendChild(e);
+            m.scrollTop = m.scrollHeight;
+        }
+
+        function clicked() {
+            let t = i.value.trim();
+            if (t) {
+                a(t, true);
+
+                // here i will send the message to 
+                //  the server and get the respones
+
+                fetch('/api/gemini/chat' , {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({message: t})
+                }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    a(data.message);
+                });
+                
+            }
+        }
+    </script>
 </body>
 </html>
