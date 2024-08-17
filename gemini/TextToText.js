@@ -20,4 +20,4 @@ async function textToText(text) {
 // });
 //I have teseted this funtin this is crazt
 
-module.export  = textToText;
+module.exports  = textToText;

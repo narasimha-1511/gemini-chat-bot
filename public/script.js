@@ -29,8 +29,6 @@ function clicked() {
             console.log(data);
             a(data.message);
         });
-
-        a("Hey this is demo goingd hehehe")
         
     }
 }
