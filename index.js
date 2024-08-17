@@ -1,12 +1,15 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 
 require('dotenv').config();
 
 const PORT  = process.env.PORT || 3000;
 
+app.use(express.static(path.join(__dirname , 'public')));
+
 app.get('/' , (req , res) => {
-    res.send('Hello World this is literraly crazy');
+    res.sendFile(path.join(__dirname , 'public' , 'index.html'));
 });
 
 app.get('/api/gemini' , (req , res) => {
