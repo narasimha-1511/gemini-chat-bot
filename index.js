@@ -9,6 +9,10 @@ app.get('/' , (req , res) => {
     res.send('Hello World this is literraly crazy');
 });
 
+app.get('/api/gemini' , (req , res) => {
+    res.send("We are setting routes for this !!");   
+})
+
 app.listen(PORT , () => {
     console.log(`Server is running on port ${PORT}`);
 });
